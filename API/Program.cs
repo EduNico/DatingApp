@@ -1,11 +1,3 @@
-
-using API.Data;
-using API.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +14,7 @@ builder.Services.AddSwaggerGen();
                 // we need to tell our server how to authenticate
 
 var app = builder.Build();
+
 
 
 // Configure the HTTP request pipeline.
