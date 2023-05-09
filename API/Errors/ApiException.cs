@@ -1,6 +1,6 @@
 namespace API.Errors
 {
-    public class ApiException
+    public class ApiException // class contain the response of what are we going to send back to the client when we have an exception
     {
         public ApiException(int statusCode, string message, string details)
         {
