@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Services
 {
-    public class TokenService : ITokenService
+    public class TokenService : ITokenService //para implementar interface ITokenService.
     {
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config)
@@ -18,7 +18,7 @@ namespace API.Services
         {
             var claims =new List<Claim>
             {
-            new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+            new Claim(JwtRegisteredClaimNames.NameId, user.UserName)//
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
