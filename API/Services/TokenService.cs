@@ -30,11 +30,11 @@ namespace API.Services
                 SigningCredentials = creds 
             };
             
-            var TokenHandler = new JwtSecurityTokenHandler();
+            var tokenHandler = new JwtSecurityTokenHandler();
             
-            var token = TokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return TokenHandler.WriteToken(token);
+            return tokenHandler.WriteToken(token);
  
         }     
 

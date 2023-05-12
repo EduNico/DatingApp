@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Authorize] //to ensure only authorize user can access a specific endpoint
+    //[Authorize] //to ensure only authorize user can access a specific endpoint
     public class UsersController :BaseApiController
     {
         private readonly IUserRepository _userRepository;

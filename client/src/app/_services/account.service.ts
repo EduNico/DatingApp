@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../_models/user';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -11,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = 'https://localhost:7280/api/';
+  baseUrl = environment.apiUrl;
   private currentUserSource = new BehaviorSubject<User| null>(null); // union type, a thing can be made of one or more types.
   currentUser$ = this.currentUserSource.asObservable();          //$ indicate that is an observable
   constructor(private http:HttpClient) { }
