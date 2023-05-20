@@ -7,6 +7,7 @@ import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
+import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class MembersService {
     params = params.append('orderBy', UserParams.orderBy);
 
 
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users' , params).pipe(
+    return getPaginatedResult<Member[]>(this.baseUrl + 'users' , params, this.http).pipe(
       map(response => {
         this.memberCache.set(Object.values(UserParams).join('-'), response);
         return response;
@@ -99,9 +100,9 @@ export class MembersService {
   }
 
   getLikes(predicate: string, pageNumber: number, pageSize: number){
-    let params = this.getPaginationHeaders(pageNumber, pageSize);
+    let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'likes', params);
+    return getPaginatedResult<Member[]>(this.baseUrl + 'likes', params, this.http);
     
   }
 
