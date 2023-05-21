@@ -1,6 +1,8 @@
 using API.Data;
+using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,32 +22,37 @@ var app = builder.Build();
 
 
 
-// Configure the HTTP request pipeline.
-app.UseMiddleware<ExceptionMiddleware>( );
+
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+// Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
 app.UseAuthentication(); //Ask the question: Do you have a valid token?
 app.UseAuthorization();  // Ask the question: ok, you have a valid token, What are you allow to do?
 app.MapControllers();
 
-using var scope = app.Services.CreateScope (); //this is going to give access to all services inside this program class
+
+
+using var scope = app.Services.CreateScope(); //this is going to give access to all services inside this program class
 var services = scope.ServiceProvider;
-try {
+try
+{
     var context = services.GetRequiredService<DataContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(context);
+    await Seed.SeedUsers(userManager, roleManager);
 }
-catch (Exception ex )
+catch (Exception ex)
 {
     var logger = services.GetService<ILogger<Program>>();
     logger.LogError(ex, "An error occurred during migration");

@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -8,11 +6,10 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    //[Authorize] //to ensure only authorize user can access a specific endpoint
+    [Authorize] //to ensure only authorize user can access a specific endpoint
     public class UsersController :BaseApiController
     {
         private readonly IUserRepository _userRepository;
@@ -22,8 +19,7 @@ namespace API.Controllers
         {
             _photoService = photoService;
             _mapper = mapper;
-            _userRepository = userRepostitory;
-           
+            _userRepository = userRepostitory;          
         }
 
         [HttpGet] 
@@ -32,7 +28,8 @@ namespace API.Controllers
             var currentUser = await _userRepository.GetUserByUsernameAsyn(User.GetUsername());
             userParams.CurrentUsername = currentUser.UserName;
 
-            if(string.IsNullOrEmpty(userParams.Gender)){
+            if(string.IsNullOrEmpty(userParams.Gender))
+            {
                 userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
             }
             var users = await _userRepository.GetMembersAsync(userParams);
@@ -130,6 +127,11 @@ namespace API.Controllers
 
             return BadRequest("Problem deleting photo");
 
+        }
+
+        private string GetDebuggerDisplay()
+        {
+            return ToString();
         }
     }
 }
