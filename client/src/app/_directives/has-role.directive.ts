@@ -13,7 +13,7 @@ export class HasRoleDirective implements OnInit{
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>,
     private accountService: AccountService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe({
-        next: user => {
+        next: user => { 
           if (user) this.user = user
         }
       })
